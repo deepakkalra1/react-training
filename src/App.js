@@ -4,6 +4,7 @@ import Item from "./Item/Item";
 import './App.css';
 
 class App extends Component {
+  
     count=0;
 
   onSubmitClick=(e)=>{
@@ -11,9 +12,15 @@ class App extends Component {
     this.count++;
     let str=document.getElementById("data").value;
     let [name,quantity]=str.split("-");
-    document.getElementById("here").insertAdjacentHTML("beforeend",`<div id="item_${this.count}"></div>`)
-    ReactDOM.render(<Item countNo={this.count} name={name} quantity={quantity}/>,document.getElementById(`item_${this.count}`))
-
+    if(str.split("-").length!=2){
+      alert("only name-quantity is allowed... more and less than this is not applicable")
+    }
+    else{
+      document.getElementById("here").insertAdjacentHTML("beforeend",`<div id="item_${this.count}"></div>`)
+      ReactDOM.render(<Item countNo={this.count} name={name} quantity={quantity}/>,document.getElementById(`item_${this.count}`))
+  
+    }
+   
   }
 
   onPressEnter = (e)=>{
