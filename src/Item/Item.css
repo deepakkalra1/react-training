@@ -1,0 +1,11 @@
+.item{
+    margin: 0.5rem;
+
+    
+}
+.sp1,.sp2{
+    border: 1px solid #eee;
+    margin-right: 0.6rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+}

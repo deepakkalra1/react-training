@@ -1,0 +1,9 @@
+.App{
+  text-align: center;
+  padding-top: 2rem;
+}
+
+#data{
+  border-radius: 5px;
+  border:1px solid #eee;
+}
