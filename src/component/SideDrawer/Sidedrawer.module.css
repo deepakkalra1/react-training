@@ -1,0 +1,44 @@
+.SidedrawerContainer{
+  
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100vh;
+    width: 70vw;
+    background-color: white;
+    z-index:102;
+    
+    border-left: 0px;
+    animation-name: menuSwipeIn;
+    animation-duration: 1.2s;
+}
+.Heading{
+    border-bottom: 1px solid #ccc;
+    font-weight: bold;
+    color: burlywood;
+}
+
+.SidedrawerContent{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  
+    
+}
+
+@keyframes menuSwipeIn{
+    from{
+        left: -70vw;
+    }
+    to{
+        left: 0px;
+    }
+}
+
+@keyframes menuSwipeOut{
+    from{
+        left: 0px;
+    }
+    to{
+        left: -70vw;
+    }
+}

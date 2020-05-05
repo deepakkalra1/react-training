@@ -1,0 +1,43 @@
+.OrderSummaryContainer{
+    position: fixed;
+    display: flex;
+    border: 1px solid #ccc;
+    justify-content: center;
+    flex-direction: column;
+    box-shadow: 1px 1px 1px #ccc;
+    padding: 15px;
+    box-sizing: border-box;
+    background-color: white;
+    bottom: 30vh;
+    left: 30vw;
+    z-index: 10;
+    border-radius: 5px;
+    animation-name: summary;
+    animation-duration: 1s;
+}
+.ListItem{
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: space-around;
+}
+.ChildItem{
+    margin-right: 20px;
+}
+
+@keyframes summary {
+    from{
+        bottom: -100vh;
+    }
+    to{
+        bottom: 30vh;
+    }
+}
+
+@media(max-width:500px){
+.OrderSummaryContainer{
+        left: 7vw;
+        width: 86vw;
+        
+    }
+}

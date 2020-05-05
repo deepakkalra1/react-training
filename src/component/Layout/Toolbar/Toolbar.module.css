@@ -1,0 +1,56 @@
+.ToolbarContainer{
+    position: fixed;
+    height: 6vh;
+    background-color: #181818;
+    width: 100vw;
+    top: 0px;
+    left: 0px;
+    color: white;
+    display: grid;
+    grid-template-columns: 30vw 40vw 30vw;
+    padding: 5px;
+    z-index: 100;
+    align-items: center;
+}
+
+.Heading{
+text-align: left;
+margin: 0px;
+}
+
+.LogoDiv{
+    display: flex;
+    justify-content: center;
+}
+.Hamburger{
+    display: none;
+}
+
+@media(max-width:500px){
+    .ToolbarContainer{
+        grid-template-columns: 10vw 90vw;
+        justify-content: center;
+    }
+    .LogoDiv{
+        display: none;
+    }
+    .Heading{
+        text-align: center;
+    }
+
+  .Navigation{
+    display: none;
+  }
+  .Hamburger{
+      display: flex;
+      flex-direction: column;
+      
+        padding: 5px;
+        
+  }
+  .HamburgerLine{
+    height: 3px;
+    margin-bottom: 2.5px;
+    background-color: white;
+  }
+}

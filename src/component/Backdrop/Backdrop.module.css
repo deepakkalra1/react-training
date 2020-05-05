@@ -1,0 +1,14 @@
+.BackdropContainer{
+    position: fixed;
+    z-index: 9;
+    top: 0px;
+    left: 0px;
+    background-color: darkslategray;
+    opacity: 0.5;
+    height: 100vh;
+    width: 100vw;
+}
+
+@media(max-width:500px){
+   
+}

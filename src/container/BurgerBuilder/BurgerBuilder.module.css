@@ -1,0 +1,7 @@
+.BurgerBuilderContainer{
+    display: flex;
+    padding: 16px;
+    flex-direction: column;
+    justify-content: center;
+    align-content: space-between;
+}
