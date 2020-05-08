@@ -6,18 +6,27 @@ import BurgerPrice from "../../component/BurgerPrice/BurgerPrice"
 import OrderNow from "../../component/Button/Button"
 import OrderSummary from "../../component/OrderSummary/OrderSummary"
 import Sidedrawer from "../../component/SideDrawer/Sidedrawer"
+import axios from "../BurgerBuilder/axios"
+import Spinner from "../../component/spinner/Spinner"
+import SuccessAlert from "../../component/alert/Alert"
 
 class BurgerBuilder extends Component{
+
+    componentDidMount(){
+        axios.get("ingredients.json")
+        .then(res=>{
+            this.setState({ingredients:res.data})
+          
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+
     total=0;
     state = {
-        ingredients:{
-            BreadTop:1,
-            Salad:0,
-            Bacon:0,
-            Cheese:0,
-            Meat:0,
-            BreadBottom:1
-        },
+        orderPlaced:false,
+        checkedOut:false,
         price:{
             BreadTop:0,
             Salad:10,
@@ -28,10 +37,35 @@ class BurgerBuilder extends Component{
         },
         totalPrice:0,
         orderNowClickedStatus:false,
-        orderNowClickEligible:false
+        orderNowClickEligible:false,
+        
          
     }
 
+    checkout=(orderDetail)=>{
+        
+        this.setState(
+            ()=>{
+            return {checkedOut:true}}
+            
+        
+        )
+        axios.post("/order.json",orderDetail)
+        .then(res=>{
+            this.setState({checkedOut:false})
+            this.backdropClickForOrder();
+
+            this.setState({orderPlaced:true})
+            setTimeout(()=>{
+                this.setState({orderPlaced:false})
+            },4000)
+
+        })
+        .catch(()=>{
+            this.setState({checkedOut:false})
+            this.backdropClickForOrder();
+        })
+    }
 
 
     findPrice = ()=>{
@@ -137,7 +171,7 @@ class BurgerBuilder extends Component{
             })
     }
 
-    backdropClick = ()=>{
+    backdropClickForOrder = ()=>{
         this.setState(()=>{
             return {orderNowClickedStatus:false}
         })
@@ -147,19 +181,26 @@ class BurgerBuilder extends Component{
    
         return(
             <div className={classes.BurgerBuilderContainer +" text-monospace"}>
-               
                 {
-                    this.checkIfAnySelected()? <Burger ingredients = {this.state.ingredients} />:
+                    this.state.orderPlaced ?<SuccessAlert type={"warning"} msg={"Order Placed !!"} />
+                    :null
+                }
+                
+                {
+                    this.state.ingredients ? this.checkIfAnySelected()? <Burger ingredients = {this.state.ingredients} />:
                     <Burger ingredients = {this.state.ingredients} ><h6>Please add ingredients of your choice!</h6></Burger>
+                    : <Spinner />
                 }
                 {
                     this.state.orderNowClickedStatus?
-                    <OrderSummary totalPrice={this.state.totalPrice} backdropClick={this.backdropClick} cancelCheckout={this.cancelCheckout} ingredientsList={this.state.ingredients} totalPrice={this.state.totalPrice}/>
+                    <OrderSummary checkoutClickedStatus={this.state.checkedOut} checkout={this.checkout} totalPrice={this.state.totalPrice} backdropClick={this.backdropClickForOrder} cancelCheckout={this.cancelCheckout} ingredientsList={this.state.ingredients} totalPrice={this.state.totalPrice}/>
                     : null
                 }
                 <BurgerPrice price={this.state.totalPrice}/>
-                <BurgerIngredientController addIngredient={this.addIngredient} ingredients={this.state.ingredients} removeIngredient={this.removeIngredient}/>
-               
+               {
+                   this.state.ingredients? <BurgerIngredientController addIngredient={this.addIngredient} ingredients={this.state.ingredients} removeIngredient={this.removeIngredient}/>
+                    :null
+               }
                
                 <OrderNow disabledStatus={ !this.state.orderNowClickEligible}  btnClick={this.orderNow} btnClassName="btn btn-primary" btnName="ORDER NOW"/>
                

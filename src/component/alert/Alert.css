@@ -1,0 +1,17 @@
+.customAlert{
+    position: fixed;
+    top: 8vh;
+    left: 10%;
+    animation-name: alertAnimation;
+    animation-duration: 1s;
+}
+
+@keyframes alertAnimation{
+    from{
+        top: -2rem;
+
+    }
+    to{
+        top: 8vh;
+    }
+}

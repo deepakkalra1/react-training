@@ -36,26 +36,33 @@ class BurgerIngredients extends Component{
             }
     }
 
-    render(){
-        
-        
-        let finalIngredientsMarkups = Object.keys(this.props.ingredients).map((key)=>{
-            
-            let ingredientsMarkup=[];
-             for(let i=0; i<this.props.ingredients[key];i++){
-            
-                 ingredientsMarkup.push(this.provideIngredient(key))
-             } 
+    
 
-             return ingredientsMarkup
-        })
-        console.log(finalIngredientsMarkups)
-        let arr = [<div>helloo</div>]
+    render(){
+    
+        let finalIngredientsMarkups = [];
+        finalIngredientsMarkups.push(this.provideIngredient("BreadTop"))
+        
+        let keySet=Object.keys(this.props.ingredients)
+        
+        for(let i=0;i<keySet.length;i++){
+            let key=keySet[i];
+            let ingredientsMarkup=[];
+            console.log(key)
+            for(let j=0; j<this.props.ingredients[key];j++){
+                                if(key!=="BreadTop" && key!== "BreadBottom"){
+                                ingredientsMarkup.push(this.provideIngredient(key))
+                            }
+
+        }
+        finalIngredientsMarkups.push(ingredientsMarkup)
+    }
+    finalIngredientsMarkups.push(this.provideIngredient("BreadBottom"))
+
     
         return(
             <React.Fragment>
             {
-                //arr
                 finalIngredientsMarkups
                 
             }
