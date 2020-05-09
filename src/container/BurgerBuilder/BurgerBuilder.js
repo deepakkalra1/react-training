@@ -182,7 +182,7 @@ class BurgerBuilder extends Component{
         return(
             <div className={classes.BurgerBuilderContainer +" text-monospace"}>
                 {
-                    this.state.orderPlaced ?<SuccessAlert type={"warning"} msg={"Order Placed !!"} />
+                    this.state.orderPlaced ?<SuccessAlert imgName="successGreen.png" type={"dark"} msg={"Order Placed !!"} />
                     :null
                 }
                 

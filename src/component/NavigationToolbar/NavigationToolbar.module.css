@@ -1,14 +1,15 @@
 .NavOfToolbarContainer{
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: flex-end;
     margin: 0px;
-    align-items: flex-end;
+    
 }
 .NavOfToolbarContainer p{
-    margin: 0px;
+    margin-right: 20px;
     text-decoration: underline;
     cursor: pointer;
+
 }
 
 @media (max-width:500px){
