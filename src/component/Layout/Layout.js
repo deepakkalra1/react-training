@@ -4,12 +4,13 @@ import BurgerBuilder from "../../container/BurgerBuilder/BurgerBuilder"
 import Toolbar from "./Toolbar/Toolbar"
 import Sidedrawer from "../SideDrawer/Sidedrawer"
 import Backdrop from "../Backdrop/Backdrop"
+import Orders from "../../container/Orders/Orders"
+import PageNotFound from "../../component/NotFound/PageNotFound"
+import {Route,Switch, Redirect} from "react-router-dom"
 
 const layoutCss = {
-    position: "fixed",
-  height: "94vh",
-  top: "6vh",
-  width: "100vw"
+    
+marginTop:"6vh"
 }
 class Layout extends Component{
     state = {
@@ -36,7 +37,14 @@ class Layout extends Component{
                 }
                 <Toolbar  openMenu={this.openMenu}/>
                 <DataBlock>
-                    <BurgerBuilder />
+
+                    <Switch>
+                    <Route path="/" exact component={BurgerBuilder} />
+                    <Route path="/my-orders" exact component={Orders} />
+                    <Route path="/page-not-found" component={PageNotFound} />
+                    <Redirect  to="/page-not-found" />
+                    </Switch>
+                
                 </DataBlock>
 
             </div>

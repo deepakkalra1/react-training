@@ -48,7 +48,7 @@ class BurgerIngredients extends Component{
         for(let i=0;i<keySet.length;i++){
             let key=keySet[i];
             let ingredientsMarkup=[];
-            console.log(key)
+            
             for(let j=0; j<this.props.ingredients[key];j++){
                                 if(key!=="BreadTop" && key!== "BreadBottom"){
                                 ingredientsMarkup.push(this.provideIngredient(key))

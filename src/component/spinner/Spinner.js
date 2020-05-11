@@ -1,10 +1,10 @@
 import React from "react"
 import classes from "./Spinner.module.css";
 
-const Spinner  = ()=>{
+const Spinner  = (props)=>{
     
     return(
-        <div className={classes.Ldsfacebook}><div></div><div></div><div></div></div>
+        <div style={props.style ? props.style :null } className={classes.Ldsfacebook}><div></div><div></div><div></div></div>
     )
 }
 export default Spinner;

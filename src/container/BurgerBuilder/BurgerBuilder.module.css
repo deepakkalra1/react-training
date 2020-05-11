@@ -1,7 +1,22 @@
 .BurgerBuilderContainer{
+    position: fixed;
+    top: 6vh;
+    width: 100vw;
     display: flex;
     padding: 16px;
     flex-direction: column;
     justify-content: center;
     align-content: space-between;
+}
+
+
+.AroundBurger{
+    width: 40%;
+    margin: auto;
+    }
+    
+@media(max-width:500px){
+    .AroundBurger{
+        width: 100%;
+    }
 }

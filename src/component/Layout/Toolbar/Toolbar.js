@@ -19,8 +19,9 @@ class Toolbar extends Component{
                 
                 <div className={classes.LogoDiv}>
                 <p className={classes.Heading}>Burger'O'Builder</p>
-                    <Logo />
+                    <div className={classes.LogoTag}><Logo  /></div>
                 </div>
+                
                 <div className={classes.Navigation}>
                     <NavigationToolbar />
                 </div>

@@ -1,0 +1,30 @@
+.OrderContainer{
+    
+    display: inline-block;
+    border: 1px solid #ccc;
+    padding: 2px;
+    margin: auto;
+    width: 25vw;
+    margin-left:10vw ;
+    margin-right:10vw ;
+    margin-bottom: 5rem;
+    transition: border 0.8s;
+    
+    font-weight: bold;
+}
+
+
+.OrderNo{
+    text-decoration: underline;
+    font-weight: bold;
+    font-variant: small-caps;
+}
+
+
+@media (max-width:500px){
+    .OrderContainer{
+       margin: 0px;;
+       width: 100%;
+       margin-bottom: 5rem;
+    }
+}

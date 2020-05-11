@@ -4,4 +4,5 @@ const axiosInstance = axios.create({
     baseURL:"https://burger-application-48baa.firebaseio.com/"
 });
 
+
 export default axiosInstance;

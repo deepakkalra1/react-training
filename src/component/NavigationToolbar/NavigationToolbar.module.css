@@ -3,13 +3,26 @@
     flex-direction: row;
     justify-content: flex-end;
     margin: 0px;
-    
+    margin-right: 1vw;    
 }
 .NavOfToolbarContainer p{
     margin-right: 20px;
-    text-decoration: underline;
+    
     cursor: pointer;
+    color: white;
+    
 
+}
+
+.ActiveNav{
+    color: saddlebrown;
+   
+}
+
+.ActiveNav:hover{
+    color: sandybrown;
+    text-decoration:underline;
+    
 }
 
 @media (max-width:500px){

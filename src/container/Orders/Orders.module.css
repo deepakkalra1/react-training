@@ -1,0 +1,15 @@
+.OrdersContainer{
+    padding: 10px;
+    height: 100%;
+    background: #FBFCFC   ;
+    width: 100%;
+    
+}
+
+@media (max-width:500px){
+    .OrdersContainer{
+        display: flex;
+        flex-direction: column-reverse;
+
+    }
+}

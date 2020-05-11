@@ -9,17 +9,23 @@ import Sidedrawer from "../../component/SideDrawer/Sidedrawer"
 import axios from "../BurgerBuilder/axios"
 import Spinner from "../../component/spinner/Spinner"
 import SuccessAlert from "../../component/alert/Alert"
+import Backdrop from "../../component/Backdrop/Backdrop"
+import UserDetailForm from "../orderForm/OrderUserDetail"
+import withErrorHandler from "../../component/ErrorHandler/withErrorHandler"
 
 class BurgerBuilder extends Component{
 
     componentDidMount(){
         axios.get("ingredients.json")
         .then(res=>{
+            
             this.setState({ingredients:res.data})
+            this.initialState.ingredients={...res.data}
           
         })
         .catch(error=>{
-            console.log(error)
+            
+                this.props.verifyErrorOccur(error)
         })
     }
 
@@ -27,6 +33,7 @@ class BurgerBuilder extends Component{
     state = {
         orderPlaced:false,
         checkedOut:false,
+        orderInPlace:false,
         price:{
             BreadTop:0,
             Salad:10,
@@ -38,34 +45,55 @@ class BurgerBuilder extends Component{
         totalPrice:0,
         orderNowClickedStatus:false,
         orderNowClickEligible:false,
+        backdropVisible:false
+        
         
          
     }
 
-    checkout=(orderDetail)=>{
         
-        this.setState(
-            ()=>{
-            return {checkedOut:true}}
+     initialState={...this.state}
+
+
+    
+    // checkout=(orderDetail)=>{
+    //     this.setState(
+    //         ()=>{
+    //         return {checkedOut:true}}
             
         
-        )
-        axios.post("/order.json",orderDetail)
-        .then(res=>{
-            this.setState({checkedOut:false})
-            this.backdropClickForOrder();
+    //     )
+        
+    //     axios.post("/order.json",orderDetail)
+    //     .then(res=>{
+    //         this.backdropClickForOrder();
+            
+    //         this.setState({orderPlaced:true})
+    //         this.setState(()=>{
+    //             this.initialState.orderPlaced=true;
+    //             // here setting state to initial when order is completed
+    //             return {...this.initialState}
+    //         })
+    //         setTimeout(()=>{
+                
+    //         this.setState({orderPlaced:false})
+            
+    //         },2000)
+            
 
-            this.setState({orderPlaced:true})
-            setTimeout(()=>{
-                this.setState({orderPlaced:false})
-            },4000)
 
-        })
-        .catch(()=>{
-            this.setState({checkedOut:false})
-            this.backdropClickForOrder();
-        })
+    //     })
+    //     .catch((error)=>{
+    //         this.setState({checkedOut:false})
+    //         this.backdropClickForOrder();
+    //         this.props.verifyErrorOccur(error)
+    //     })
+    // }
+
+    checkout=()=>{
+        this.setState({orderNowClickedStatus:false,checkedOut:true})
     }
+
 
 
     findPrice = ()=>{
@@ -91,6 +119,8 @@ class BurgerBuilder extends Component{
     
     }
 
+
+
     checkIfAnySelected= ()=>{
         
         if(this.state.ingredients.Bacon===0 && this.state.ingredients.Salad===0 &&
@@ -102,6 +132,8 @@ class BurgerBuilder extends Component{
 
             return true;
     }
+
+
 
     addIngredient = (e)=>{
             let keyIs = e.target.parentNode.id
@@ -116,6 +148,8 @@ class BurgerBuilder extends Component{
             }
           
     }
+
+
 
     removeIngredient = (e)=>{
         
@@ -135,6 +169,9 @@ class BurgerBuilder extends Component{
             })
           
 }
+
+
+
     updateOrderNowClickEligibleStatusOnAdd=()=>{
         if(this.state.orderNowClickEligible===false){
         Object.keys(this.state.ingredients).map((ingredientName)=>{
@@ -148,6 +185,7 @@ class BurgerBuilder extends Component{
         })
     }
     }
+
 
 
     updateOrderNowClickEligibleStatusOnRemove=()=>{
@@ -165,11 +203,14 @@ class BurgerBuilder extends Component{
     }
 
 
+
     orderNow=()=>{
             this.setState(()=>{
                 return {orderNowClickedStatus:true}
             })
     }
+
+
 
     backdropClickForOrder = ()=>{
         this.setState(()=>{
@@ -177,23 +218,96 @@ class BurgerBuilder extends Component{
         })
     }
 
+
+    closeOrderUserDetailForm=()=>{
+        this.setState({checkedOut:false})
+    }
+
+    boughtFormDetailObj={}
+
+    bringFormDetailValues = (obj)=>{
+        this.boughtFormDetailObj={...obj}
+
+    }
+
+
+    submitUserDetailForOrderForm=()=>{
+        this.setState({orderInPlace:1,checkedOut:false})
+        
+        let order={
+            name:this.boughtFormDetailObj.name.value,
+            ingredients :{...this.state.ingredients},
+            totalPrice : this.state.totalPrice,
+            address:{
+                street:this.boughtFormDetailObj.street.value,
+                city:this.boughtFormDetailObj.city.value,
+                state:this.boughtFormDetailObj.state.value,
+                zipCode:this.boughtFormDetailObj.zipCode.value,
+                
+            },
+            paymentMethod:this.boughtFormDetailObj.paymentMethod.value,
+            phoneNumber:this.boughtFormDetailObj.phoneNumber.value,
+            email:this.boughtFormDetailObj.email.value
+            
+        }
+
+        axios.post("/order.json",order)
+        .then(res=>{
+            
+            
+            this.setState({orderInPlace:2})
+
+            this.setState(()=>{
+                this.initialState.orderInPlace=2;
+                // here setting state to initial when order is completed
+                return {...this.initialState}
+            })
+            setTimeout(()=>{
+                
+            this.setState({orderInPlace:0})
+            
+            },2000)
+            
+
+
+        })
+
+
+        .catch((error)=>{
+            this.setState({...this.initialState})
+            this.props.verifyErrorOccur(error)
+        })
+
+    }
+
+
     render(){
    
         return(
             <div className={classes.BurgerBuilderContainer +" text-monospace"}>
+                {/* <SuccessAlert imgName="successGreen.png" type={"dark"} msg={"Order Placed !!"} /> */}
                 {
-                    this.state.orderPlaced ?<SuccessAlert imgName="successGreen.png" type={"dark"} msg={"Order Placed !!"} />
+                    this.state.orderInPlace===1 ?<React.Fragment>  
+                        <Backdrop />
+                        <Spinner style={{position:"fixed",margin: "auto",zIndex:"151",
+                    left: "0",
+                    right: "0"}} />
+
+                </React.Fragment>
+                    :
+                    this.state.orderInPlace===2 ? 
+                    <SuccessAlert imgName="successGreen.png" type={"dark"} msg={"Order Placed !!"} />
                     :null
                 }
                 
                 {
-                    this.state.ingredients ? this.checkIfAnySelected()? <Burger ingredients = {this.state.ingredients} />:
-                    <Burger ingredients = {this.state.ingredients} ><h6>Please add ingredients of your choice!</h6></Burger>
+                    this.state.ingredients ? this.checkIfAnySelected()?<div className={classes.AroundBurger}> <Burger ingredients = {this.state.ingredients} /> </div>:
+                    <div className={classes.AroundBurger}><Burger ingredients = {this.state.ingredients} ><h6>Add ingredients of your choice!</h6></Burger></div>
                     : <Spinner />
                 }
                 {
                     this.state.orderNowClickedStatus?
-                    <OrderSummary checkoutClickedStatus={this.state.checkedOut} checkout={this.checkout} totalPrice={this.state.totalPrice} backdropClick={this.backdropClickForOrder} cancelCheckout={this.cancelCheckout} ingredientsList={this.state.ingredients} totalPrice={this.state.totalPrice}/>
+                    <OrderSummary  checkout={this.checkout} totalPrice={this.state.totalPrice} backdropClick={this.backdropClickForOrder} cancelCheckout={this.cancelCheckout} ingredientsList={this.state.ingredients} totalPrice={this.state.totalPrice}/>
                     : null
                 }
                 <BurgerPrice price={this.state.totalPrice}/>
@@ -201,13 +315,17 @@ class BurgerBuilder extends Component{
                    this.state.ingredients? <BurgerIngredientController addIngredient={this.addIngredient} ingredients={this.state.ingredients} removeIngredient={this.removeIngredient}/>
                     :null
                }
-               
+               {
+                    this.state.checkedOut? <React.Fragment> <Backdrop backdropClick={this.closeOrderUserDetailForm} /> <UserDetailForm giveInputValuesBack={this.bringFormDetailValues} submitForm={this.submitUserDetailForOrderForm} closeForm={this.closeOrderUserDetailForm}  heading="Enter Your Details:" submitBtnTitle="Place Order"/> </React.Fragment>:null
+               }
+               {
+
+               }
                 <OrderNow disabledStatus={ !this.state.orderNowClickEligible}  btnClick={this.orderNow} btnClassName="btn btn-primary" btnName="ORDER NOW"/>
-               
             </div>
         )
     }
 
 }
 
-export default BurgerBuilder;
+export default withErrorHandler(BurgerBuilder);
