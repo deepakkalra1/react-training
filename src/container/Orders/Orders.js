@@ -47,7 +47,7 @@ class Orders extends React.Component{
             <div className={classes.OrdersContainer}>
                    
            {this.state.orders? this.populateOrders() :
-           <Spinner />
+           <Spinner style={{position:"fixed",left:"0px",right:"0px",top:"0px",bottom:"0px",margin:"auto",zIndex:"160"}} />
            }
             </div>
         )

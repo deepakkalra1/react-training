@@ -11,9 +11,10 @@
     position: absolute;
     left: 8px;
     width: 16px;
-    background: #def55c;
+    background: rgb(183, 178, 248);
     animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
   }
+  /* def55c */
   .Ldsfacebook div:nth-child(1) {
     left: 8px;
     animation-delay: -0.24s;

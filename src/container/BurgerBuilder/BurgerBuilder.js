@@ -12,6 +12,7 @@ import SuccessAlert from "../../component/alert/Alert"
 import Backdrop from "../../component/Backdrop/Backdrop"
 import UserDetailForm from "../orderForm/OrderUserDetail"
 import withErrorHandler from "../../component/ErrorHandler/withErrorHandler"
+import {connect} from "react-redux"
 
 class BurgerBuilder extends Component{
 
@@ -29,6 +30,7 @@ class BurgerBuilder extends Component{
         })
     }
 
+    
     total=0;
     state = {
         orderPlaced:false,
@@ -282,9 +284,15 @@ class BurgerBuilder extends Component{
 
 
     render(){
+        
+        console.log(this.props)
    
+        // this.props.setInitialIngredients()
+
+
         return(
             <div className={classes.BurgerBuilderContainer +" text-monospace"}>
+               
                 {/* <SuccessAlert imgName="successGreen.png" type={"dark"} msg={"Order Placed !!"} /> */}
                 {
                     this.state.orderInPlace===1 ?<React.Fragment>  
@@ -328,4 +336,23 @@ class BurgerBuilder extends Component{
 
 }
 
-export default withErrorHandler(BurgerBuilder);
+
+
+    const mapStateToProps = (state)=>{
+        console.log(state)
+        return{
+       
+        testing:state.test
+    }
+}
+
+    const mapDispatchToProps = (dispatch)=>{
+        return{
+        setInitialIngredients: ()=> dispatch({type:"SET_INITIAL_INGREDIENTS"})
+    }
+}
+
+
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(withErrorHandler(BurgerBuilder));

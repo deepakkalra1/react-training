@@ -123,6 +123,7 @@ class UserDetail extends Component{
     }
 
     generateFormElement=()=>{
+        
         let formElementsKeys = Object.keys(this.state.formElements);
         let formElementsArr=[]
         for(let i=0;i<formElementsKeys.length;i++){
@@ -152,7 +153,7 @@ class UserDetail extends Component{
     }
     render(){
         return(
-            <form className={classes.UserDetailForm} onSubmit={this.formSubmit}>
+            <form className={classes.UserDetailForm } onSubmit={this.formSubmit}>
                 <i style={{cursor:"pointer",color:"red",textAlign:"right"}} data-toggle="tooltip" title="Close" onClick={this.close} class="material-icons">highlight_off</i>
                 <p><strong>{this.props.heading}</strong></p>
                 <div className="form-group">
