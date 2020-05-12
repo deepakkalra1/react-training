@@ -31,13 +31,17 @@ let withErrorHandler =(WrapperComponent)=>{
                
                    this.state.errorOccured
                    ? 
+                   // console.log("here is datda",res)
+                   // this.setState({ingredients:res.data})
+                   // this.initialState.ingredients={...res.data}
+                   // console.log({...actionType.setInitialIngredientsActionType(), value=res.data})
                    <React.Fragment>
                    <Backdrop backdropClick={this.backdropClickForError} />
                    <div className={classes.ErrorContainer}>
                        {this.state.errorMsg}
                </div>
                </React.Fragment>
-               : <WrapperComponent verifyErrorOccur={this.verifyErrorOccur} />
+               : <WrapperComponent {...this.props} verifyErrorOccur={this.verifyErrorOccur} />
                
                
                 

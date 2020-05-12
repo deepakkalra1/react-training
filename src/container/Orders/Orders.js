@@ -14,7 +14,9 @@ class Orders extends React.Component{
     componentDidMount(){
         axios.get("/order.json")
         .then(response=>{
-                this.setState({orders:response.data})
+                this.setState({orders:response.data},()=>{
+                    
+                })
         })
         .catch(error=>{
 
@@ -32,10 +34,9 @@ class Orders extends React.Component{
             
 
             let obj = this.state.orders[keys[i]]
-                    console.log(obj.ingredients)
+                    console.log(obj)
             ordersArr.push(<Order no={i}
-
-                orderDetail={obj}
+                orderDetail= {obj} 
                 />)
         }
 
