@@ -4,21 +4,57 @@ import BurgerBuilder from "../../container/BurgerBuilder/BurgerBuilder"
 import Toolbar from "./Toolbar/Toolbar"
 import Sidedrawer from "../SideDrawer/Sidedrawer"
 import Backdrop from "../Backdrop/Backdrop"
+import Orders from "../../container/Orders/Orders"
+import PageNotFound from "../../component/NotFound/PageNotFound"
+import {Route,Switch, Redirect} from "react-router-dom"
+import Auth from "../auth/Auth"
+import {connect} from "react-redux"
 
+const actions = require("../../actions/actions")
 const layoutCss = {
-    position: "fixed",
-  height: "94vh",
-  top: "6vh",
-  width: "100vw"
+marginTop:"6vh"
 }
 class Layout extends Component{
+
+    static getDerivedStateFromProps(){
+        return {}
+    }
+
+    componentDidMount(){
+
+        let authDetail = localStorage.getItem("authDetail")
+        if(authDetail!==null){
+            authDetail =JSON.parse(authDetail)
+         this.props.setUserAuthDetails(authDetail)   
+        }
+
+    }
+
+
     state = {
-        menuStatus:false
+        menuStatus:false,
+        auth:false,
+        menuAuth:false
     }
 
     openMenu=()=>{
         this.setState(()=>{
             return {menuStatus:true }
+        })
+    }
+
+    toggleAuthPage=()=>{
+        
+        this.setState(prevState=>{
+            return{auth:!prevState.auth}
+        })
+    }
+
+    toggleAuthInMenuState=()=>{
+        this.closeMenu()
+        
+        this.setState(prevState=>{
+            return{menuAuth:!prevState.menuAuth}
         })
     }
 
@@ -32,11 +68,27 @@ class Layout extends Component{
         return(
             <div style={layoutCss}>
                 {
-                    this.state.menuStatus?<React.Fragment> <Sidedrawer menuStatus={this.state.menuStatus} /><Backdrop backdropClick={this.closeMenu} /></React.Fragment> : null
+                    this.state.menuStatus?<React.Fragment> <Sidedrawer    toggleAuthPage={this.toggleAuthInMenuState} /><Backdrop backdropClick={this.closeMenu} /></React.Fragment> : null
                 }
-                <Toolbar  openMenu={this.openMenu}/>
+                <Toolbar auth={this.state.auth} toggleAuthPage={this.toggleAuthPage}  openMenu={this.openMenu}/>
+                {
+                    this.state.menuAuth?<React.Fragment> <Backdrop backdropClick={this.toggleAuthInMenuState} /> <Auth toggleAuthPage={this.toggleAuthInMenuState}  /> </React.Fragment>:null
+                }
                 <DataBlock>
-                    <BurgerBuilder />
+                    
+                    <Switch>
+                    <Route path="/" exact component={BurgerBuilder} />
+                   
+                   {
+                       this.props.authenticated?<Route path="/my-orders" exact component={Orders} />
+                    :null
+                   }
+                    
+                    <Route path="/page-not-found" component={PageNotFound} />
+                    
+                    <Redirect  to="/page-not-found" />
+                    </Switch>
+                
                 </DataBlock>
 
             </div>
@@ -45,4 +97,21 @@ class Layout extends Component{
 
 }
 
-export default Layout;
+const mapStateToProps = (state)=>{
+    
+    return{
+        authenticated:state.authReducer.authenticated,
+        
+}
+}
+
+const mapDispatchToProps = (dispatch)=>{
+    return{
+     setUserAuthDetails:(authDetail)=> dispatch(actions.setUserAuthDetailsAction(authDetail)),
+    
+   
+}
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps) (Layout);

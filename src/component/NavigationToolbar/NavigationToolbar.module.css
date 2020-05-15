@@ -1,14 +1,37 @@
 .NavOfToolbarContainer{
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: flex-end;
     margin: 0px;
-    align-items: flex-end;
+    margin-right: 1vw;    
 }
 .NavOfToolbarContainer p{
-    margin: 0px;
-    text-decoration: underline;
+    margin-right: 20px;
+    
     cursor: pointer;
+    color: white;
+    
+
+}
+
+.Navlinks{
+    color:white
+}
+.LoginLink{
+    padding-left: 7px;
+    padding-right: 7px;
+    border-radius: 5px;
+    
+}
+.ActiveNav{
+    color: saddlebrown;
+   
+}
+
+.ActiveNav:hover{
+    color: sandybrown;
+    text-decoration:underline;
+    
 }
 
 @media (max-width:500px){
@@ -23,5 +46,12 @@
         height: 40px;
         padding: 8px;
         border-bottom: 0.5px solid #ccc;
+    }
+    .LoginLink{
+        color: black;
+    }
+
+    .Navlinks{
+        color:#181818;
     }
 }

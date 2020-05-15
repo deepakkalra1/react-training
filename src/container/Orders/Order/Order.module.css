@@ -1,0 +1,45 @@
+.OrderContainer{
+    
+    display: inline-block;
+    border: 1px solid #ccc;
+    
+    padding: 2px;
+    margin: auto;
+    width: 25vw;
+    margin-left:10vw ;
+    margin-right:10vw ;
+    margin-bottom: 5rem;
+    transition: border 0.8s;
+    
+    font-weight: bold;
+}
+
+/* .DeliveredStamp{
+    height: 40px;
+    position: absolute;
+    left: 5px;
+    top: 5px;
+} */
+
+
+.Barcode{
+    height: 30px;
+    width: 80%;
+    display: block;
+
+    margin: auto;
+}
+.OrderNo{
+    text-decoration: underline;
+    font-weight: bold;
+    
+}
+
+
+@media (max-width:500px){
+    .OrderContainer{
+       margin: 0px;;
+       width: 100%;
+       margin-bottom: 5rem;
+    }
+}

@@ -6,61 +6,86 @@ import BurgerPrice from "../../component/BurgerPrice/BurgerPrice"
 import OrderNow from "../../component/Button/Button"
 import OrderSummary from "../../component/OrderSummary/OrderSummary"
 import Sidedrawer from "../../component/SideDrawer/Sidedrawer"
+import axios from "../BurgerBuilder/axios"
+import Spinner from "../../component/spinner/Spinner"
+import SuccessAlert from "../../component/alert/Alert"
+import Backdrop from "../../component/Backdrop/Backdrop"
+import UserDetailForm from "../orderForm/OrderUserDetail"
+import withErrorHandler from "../../component/ErrorHandler/withErrorHandler"
+import {connect} from "react-redux"
+const actions=  require( "../../actions/actions")
 
 class BurgerBuilder extends Component{
+    
     total=0;
     state = {
-        ingredients:{
-            BreadTop:1,
-            Salad:0,
-            Bacon:0,
-            Cheese:0,
-            Meat:0,
-            BreadBottom:1
-        },
-        price:{
-            BreadTop:0,
-            Salad:10,
-            Bacon:30,
-            Cheese:80,
-            Meat:100,
-            BreadBottom:0
-        },
-        totalPrice:0,
+        
+        orderPlaced:false,
+        checkedOut:false,
+        orderInPlace:false,
+        
         orderNowClickedStatus:false,
-        orderNowClickEligible:false
+        orderNowClickEligible:false,
+        backdropVisible:false
+        
+        
          
     }
 
+    boughtFormDetailObj={}
+        
+    initialState={...this.state}
 
 
+    static getDerivedStateFromProps(nextProps){
+        
+        return {
+          
+        }
+    }
+
+    shouldComponentUpdate(){
+        console.log(this.state)
+        return true
+    }
+
+    //------------------------------------------------>
+     componentDidMount(){
+        this.props.setInitialIngredients(this.props.verifyErrorOccur)   
+    }
+
+
+    //------------------------------------------------>
+    checkout=()=>{
+        this.setState({orderNowClickedStatus:false,checkedOut:true})
+    }
+
+
+    //------------------------------------------------>
     findPrice = ()=>{
-        this.setState((prevState)=>{
-            let total = Object.keys(prevState.price).map((key)=>{
+            let total = Object.keys(this.props.price).map((key)=>{
                 if(key!="BreadTop" && key!="BreadBottom"){
-                let ingredientNumber = Number(prevState.ingredients[key])
-                let ingredientPrice = Number(prevState.price[key])
+                let ingredientNumber = Number(this.props.ingredients[key])
+                let ingredientPrice = Number(this.props.price[key])
                  this.total+= ingredientNumber * ingredientPrice;
                 }
                 
             })
     
-            
-            this.setState((prevState2)=>{
-                    return {totalPrice:this.total}
-            },()=>{
-               this.total=0
-            })
-
-        })
+            this.props.setTotalPrice(this.total)
+            this.total=0
+        
        
     
     }
 
+
+    //------------------------------------------------>
     checkIfAnySelected= ()=>{
         
-        if(this.state.ingredients.Bacon===0 && this.state.ingredients.Salad===0 &&
-            this.state.ingredients.Meat===0 && this.state.ingredients.Cheese===0 )
+        
+        if(this.props.ingredients.Bacon===0 && this.props.ingredients.Salad===0 &&
+            this.props.ingredients.Meat===0 && this.props.ingredients.Cheese===0 )
             {
             
                 return false;
@@ -69,43 +94,51 @@ class BurgerBuilder extends Component{
             return true;
     }
 
+
+    //------------------------------------------------>
     addIngredient = (e)=>{
-            let keyIs = e.target.parentNode.id
-            if(this.state.ingredients[keyIs]<3){
-                this.setState((prevState)=>{
-                    prevState.ingredients[keyIs]+=1;
-                    return {ingredients:prevState.ingredients}
-                },()=>{
+            let keyIs = e.target.parentNode.id;
+            console.log(this.props.ingredients)
+            if(this.props.ingredients[keyIs]<3){
+                
+                this.props.addIngredient(keyIs)
                     this.findPrice()
                     this.updateOrderNowClickEligibleStatusOnAdd()
-                })
+                    
+                
             }
+            
           
     }
 
+
+    //------------------------------------------------>
     removeIngredient = (e)=>{
         
         let keyIs = e.target.parentNode.id
         
             
-            this.setState((prevState)=>{
-                if(prevState.ingredients[keyIs]>0){
-                
             
-                prevState.ingredients[keyIs]-=1;
-                return {ingredients:prevState.ingredients}
+                if(this.props.ingredients[keyIs]>0){
+                
+                    this.props.removeIngredient(keyIs)
+                    this.findPrice()
+                    this.updateOrderNowClickEligibleStatusOnRemove()
+                    
                 }
-            },()=>{
-                this.findPrice()
-                this.updateOrderNowClickEligibleStatusOnRemove()
-            })
+        
+                
+        
           
 }
+
+
+    //------------------------------------------------>
     updateOrderNowClickEligibleStatusOnAdd=()=>{
         if(this.state.orderNowClickEligible===false){
-        Object.keys(this.state.ingredients).map((ingredientName)=>{
+        Object.keys(this.props.ingredients).map((ingredientName)=>{
             
-                if(this.state.ingredients[ingredientName]>0 && this.state.ingredients[ingredientName]!="BreadTop" && this.state.ingredients[ingredientName]!="BreadBottom"){
+                if(this.props.ingredients[ingredientName]>0 && this.props.ingredients[ingredientName]!="BreadTop" && this.props.ingredients[ingredientName]!="BreadBottom"){
                     this.setState((prevState)=>{
                        return {orderNowClickEligible:true}
                     })
@@ -116,11 +149,12 @@ class BurgerBuilder extends Component{
     }
 
 
+    //------------------------------------------------>
     updateOrderNowClickEligibleStatusOnRemove=()=>{
         
-        let ingKeys = Object.keys(this.state.ingredients);
+        let ingKeys = Object.keys(this.props.ingredients);
         for(let i=0;i<ingKeys.length;i++){
-            if(this.state.ingredients[ingKeys[i]] >0 && ingKeys[i]!="BreadTop" && ingKeys[i]!="BreadBottom" ){
+            if(this.props.ingredients[ingKeys[i]] >0 && ingKeys[i]!="BreadTop" && ingKeys[i]!="BreadBottom" ){
                 return 0;
             }
         }
@@ -131,42 +165,197 @@ class BurgerBuilder extends Component{
     }
 
 
+    //------------------------------------------------>
     orderNow=()=>{
             this.setState(()=>{
                 return {orderNowClickedStatus:true}
             })
     }
 
-    backdropClick = ()=>{
+
+    //------------------------------------------------>
+    backdropClickForOrder = ()=>{
         this.setState(()=>{
             return {orderNowClickedStatus:false}
         })
     }
 
+
+    //------------------------------------------------>
+    closeOrderUserDetailForm=()=>{
+        this.setState({checkedOut:false})
+    }
+
+
+    //------------------------------------------------>
+    bringFormDetailValues = (obj)=>{
+        this.boughtFormDetailObj={...obj}
+
+    }
+
+
+
+
+    //------------------------------------------------>
+    findMonth(no){
+        switch(no){
+            case 1:
+                return "January"
+                case 2:
+                    return "February"
+                    case 3:
+                return "March"
+                case 4:
+                return "April"
+                case 5:
+                return "May"
+                case 6:
+                return "June"
+                case 7:
+                return "July"
+                case 8:
+                return "August"
+                case 9:
+                return "September"
+                case 10:
+                return "October"
+                case 11:
+                return "November"
+                case 12:
+                return "December"
+                
+        }
+    }
+
+
+    //------------------------------------------------>
+    submitUserDetailForOrderForm=()=>{
+        this.setState({orderInPlace:1,checkedOut:false})
+        
+        let order={
+            name:this.boughtFormDetailObj.name.value,
+            ingredients :{...this.props.ingredients},
+            totalPrice : this.props.totalPrice,
+            orderDate:`${new Date().getDate()}-${this.findMonth(new Date().getMonth()+1)}-${new Date().getFullYear()}`,
+            orderTime: `${  new Date().getHours() >12 ? new Date().getHours()-12 :   new Date().getHours()   }: ${new Date().getMinutes().toString().length==1?0+""+new Date().getMinutes() : new Date().getMinutes()} ${new Date().getHours()>12 ? "PM":"AM"}`,
+            address:{
+                street:this.boughtFormDetailObj.street.value,
+                city:this.boughtFormDetailObj.city.value,
+                state:this.boughtFormDetailObj.state.value,
+                zipCode:this.boughtFormDetailObj.zipCode.value,
+                
+            },
+            paymentMethod:this.boughtFormDetailObj.paymentMethod.value,
+            phoneNumber:this.boughtFormDetailObj.phoneNumber.value,
+            email:this.boughtFormDetailObj.email.value
+            
+        }
+
+        axios.post("/order.json",order)
+        .then(res=>{
+            
+            
+            this.setState({orderInPlace:2})
+
+            this.setState(()=>{
+                this.initialState.orderInPlace=2;
+                // here setting state to initial when order is completed
+                this.props.setInitialIngredients()
+                this.props.setTotalPrice(0)
+                return {...this.initialState}
+            })
+            setTimeout(()=>{
+                
+            this.setState({orderInPlace:0})
+            
+            },3000)
+            
+
+
+        })
+
+
+        .catch((error)=>{
+            this.setState({...this.initialState})
+            this.props.verifyErrorOccur(error)
+        })
+
+    }
+
+
+    //------------------------------------------------>
     render(){
-   
         return(
             <div className={classes.BurgerBuilderContainer +" text-monospace"}>
                
                 {
-                    this.checkIfAnySelected()? <Burger ingredients = {this.state.ingredients} />:
-                    <Burger ingredients = {this.state.ingredients} ><h6>Please add ingredients of your choice!</h6></Burger>
+                    this.state.orderInPlace===1 ?<React.Fragment>  
+                        <Backdrop />
+                        <Spinner style={{position:"fixed",margin: "auto",zIndex:"151",
+                    left: "0",
+                    right: "0"}} />
+
+                </React.Fragment>
+                    :
+                    this.state.orderInPlace===2 ? 
+                    <SuccessAlert imgName="successGreen.png" type={"dark"} msg={"Order Placed !!"} />
+                    :null
                 }
+                
+                {
+                    this.props.ingredients ? this.checkIfAnySelected()?<div className={classes.AroundBurger}> <Burger ingredients = {this.props.ingredients} /> </div>:
+                    <div className={classes.AroundBurger}><Burger ingredients = {this.props.ingredients} ><h6>Add ingredients of your choice!</h6></Burger></div>
+                    : <Spinner />
+                }
+
                 {
                     this.state.orderNowClickedStatus?
-                    <OrderSummary totalPrice={this.state.totalPrice} backdropClick={this.backdropClick} cancelCheckout={this.cancelCheckout} ingredientsList={this.state.ingredients} totalPrice={this.state.totalPrice}/>
+                    <OrderSummary  checkout={this.checkout} totalPrice={this.state.totalPrice} backdropClick={this.backdropClickForOrder} cancelCheckout={this.cancelCheckout} ingredientsList={this.props.ingredients} totalPrice={this.props.totalPrice}/>
                     : null
                 }
-                <BurgerPrice price={this.state.totalPrice}/>
-                <BurgerIngredientController addIngredient={this.addIngredient} ingredients={this.state.ingredients} removeIngredient={this.removeIngredient}/>
+
+                <BurgerPrice price={this.props.totalPrice}/>
+
+               {
+                   this.props.ingredients? <BurgerIngredientController addIngredient={this.addIngredient} ingredients={this.props.ingredients} removeIngredient={this.removeIngredient}/>
+                    :null
+               }
+
+               {
+                    this.state.checkedOut? <React.Fragment> <Backdrop backdropClick={this.closeOrderUserDetailForm} /> <UserDetailForm giveInputValuesBack={this.bringFormDetailValues} submitForm={this.submitUserDetailForOrderForm} closeForm={this.closeOrderUserDetailForm}  heading="Enter Your Details:" submitBtnTitle="Place Order"/> </React.Fragment>:null
+               } {/* <SuccessAlert imgName="successGreen.png" type={"dark"} msg={"Order Placed !!"} /> */}
                
-               
+               {
+
+               }
                 <OrderNow disabledStatus={ !this.state.orderNowClickEligible}  btnClick={this.orderNow} btnClassName="btn btn-primary" btnName="ORDER NOW"/>
-               
             </div>
         )
     }
 
 }
 
-export default BurgerBuilder;
+
+
+const mapStateToProps = (state)=>{
+        
+    return{
+        ingredients:state.burgerBuilder.ingredients,
+   price:state.burgerBuilder.price,
+   totalPrice:state.burgerBuilder.totalPrice
+}
+}
+
+const mapDispatchToProps = (dispatch)=>{
+    return{
+    setInitialIngredients: (verifyErrorOccur)=> dispatch(actions.setInititialIngredienstAction(verifyErrorOccur)),
+    setTotalPrice: (total)=> dispatch(actions.setTotalPriceAction(total)),
+    addIngredient:(name)=> dispatch(actions.addIngredientAction(name)),
+    removeIngredient:(name)=> dispatch(actions.removeIngredientAction(name))
+    
+}
+}
+
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(withErrorHandler(BurgerBuilder));
