@@ -76,7 +76,12 @@ class Signup extends React.Component{
                      required={eleObj.validation.required}
                      />
                 )
+
+                default:
+                    return null;
         }
+
+       
 
     }
 
@@ -150,7 +155,8 @@ class Signup extends React.Component{
             const authDetail = {
                 authToken:res.data.idToken,
     refreshToken:res.data.refreshToken,
-    username:res.data.email
+    username:res.data.email,
+    userId:res.data.localId
             }
 
             localStorage.setItem("authDetail", JSON.stringify(authDetail))

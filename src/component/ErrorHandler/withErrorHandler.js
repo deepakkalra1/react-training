@@ -38,7 +38,7 @@ let withErrorHandler =(WrapperComponent)=>{
                    <React.Fragment>
                    <Backdrop backdropClick={this.backdropClickForError} />
                    <div className={classes.ErrorContainer +" alert alert-danger" }>
-                       <img style={{height:"17px",marginRight:"5px"}} src={require("../../assets/error.png")} />
+                       <img alt="*" style={{height:"17px",marginRight:"5px"}} src={require("../../assets/error.png")} />
                        {this.state.errorMsg}
                </div>
                </React.Fragment>

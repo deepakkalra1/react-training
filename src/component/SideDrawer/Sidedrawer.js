@@ -19,7 +19,7 @@ class Sidedrawer extends React.Component{
                 <Logo />
                 <p className={classes.Heading}>Burger'O'Builder</p>
         {this.props.authenticated?<p style={{background:"#181818",color:"white",fontWeight:"bold",padding:"5px"}}>Hi, {this.props.username}</p>:null }
-                <Navigation toggleAuthPage={this.props.toggleAuthPage} />
+                <Navigation mobileView={this.props.mobileView} closeMenu={this.props.closeMenu} toggleAuthPage={this.props.toggleAuthPage} />
             </div>
             </div>
         )

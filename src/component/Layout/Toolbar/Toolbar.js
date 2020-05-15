@@ -27,7 +27,7 @@ class Toolbar extends Component{
                 
                 <div className={classes.Navigation}>
                     
-                    <NavigationToolbar auth={this.props.auth} toggleAuthPage={this.props.toggleAuthPage} />
+                    <NavigationToolbar  auth={this.props.auth} toggleAuthPage={this.props.toggleAuthPage} />
                 
                 </div>
             </div>

@@ -4,8 +4,7 @@ const initialState = {
     authToken:null,
     refreshToken:null,
     username:null,
-    successSignup:null,
-    authPage:false
+    userId:null
 }
 
 const authReducer=(state=initialState,action)=>{
@@ -18,6 +17,7 @@ const authReducer=(state=initialState,action)=>{
         oldObj.authToken=action.value.authToken;
         oldObj.username=action.value.username;
         oldObj.refreshToken=action.value.refreshToken
+        oldObj.userId=action.value.userId
         return oldObj;
         
 
@@ -30,11 +30,6 @@ const authReducer=(state=initialState,action)=>{
             oldObj.username=null
             return oldObj;
 
-
-        case actionName.SUCCESS_SIGNUP:
-            oldObj={...state}
-            oldObj.successSignup=action.value
-            return oldObj
 
 
         

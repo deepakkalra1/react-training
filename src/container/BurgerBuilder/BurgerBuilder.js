@@ -48,7 +48,6 @@ class BurgerBuilder extends Component{
     }
 
     shouldComponentUpdate(){
-        console.log(this.state)
         return true
     }
 
@@ -236,6 +235,7 @@ class BurgerBuilder extends Component{
         this.setState({orderInPlace:1,checkedOut:false})
         
         let order={
+            userId:this.props.userId,
             name:this.boughtFormDetailObj.name.value,
             ingredients :{...this.props.ingredients},
             totalPrice : this.props.totalPrice,
@@ -246,6 +246,7 @@ class BurgerBuilder extends Component{
                 city:this.boughtFormDetailObj.city.value,
                 state:this.boughtFormDetailObj.state.value,
                 zipCode:this.boughtFormDetailObj.zipCode.value,
+                email:this.props.username
                 
             },
             paymentMethod:this.boughtFormDetailObj.paymentMethod.value,
@@ -364,7 +365,9 @@ const mapStateToProps = (state)=>{
    price:state.burgerBuilder.price,
    totalPrice:state.burgerBuilder.totalPrice,
    authenticated:state.authReducer.authenticated,
-   authToken:state.authReducer.authToken
+   authToken:state.authReducer.authToken,
+   username:state.authReducer.username,
+   userId:state.authReducer.userId
 }
 }
 

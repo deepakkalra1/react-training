@@ -68,9 +68,9 @@ class Layout extends Component{
         return(
             <div style={layoutCss}>
                 {
-                    this.state.menuStatus?<React.Fragment> <Sidedrawer    toggleAuthPage={this.toggleAuthInMenuState} /><Backdrop backdropClick={this.closeMenu} /></React.Fragment> : null
+                    this.state.menuStatus?<React.Fragment> <Sidedrawer mobileView={this.state.menuStatus} closeMenu={this.closeMenu}    toggleAuthPage={this.toggleAuthInMenuState} /><Backdrop backdropClick={this.closeMenu} /></React.Fragment> : null
                 }
-                <Toolbar auth={this.state.auth} toggleAuthPage={this.toggleAuthPage}  openMenu={this.openMenu}/>
+                <Toolbar  auth={this.state.auth} toggleAuthPage={this.toggleAuthPage}  openMenu={this.openMenu}/>
                 {
                     this.state.menuAuth?<React.Fragment> <Backdrop backdropClick={this.toggleAuthInMenuState} /> <Auth toggleAuthPage={this.toggleAuthInMenuState}  /> </React.Fragment>:null
                 }
@@ -81,7 +81,7 @@ class Layout extends Component{
                    
                    {
                        this.props.authenticated?<Route path="/my-orders" exact component={Orders} />
-                    :null
+                    : <Route path="/my-orders" exact component={PageNotFound} />
                    }
                     
                     <Route path="/page-not-found" component={PageNotFound} />

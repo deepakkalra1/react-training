@@ -3,6 +3,7 @@ import classes from "./Orders.module.css"
 import Order from "./Order/Order"
 import Spinner from "../../component/spinner/Spinner"
 import axios from "../BurgerBuilder/axios"
+import {connect} from "react-redux"
 
 class Orders extends React.Component{
 
@@ -17,17 +18,27 @@ class Orders extends React.Component{
     }
 
 
+
+    //----------------------------------------------->
+    static getDerivedStateFromProps(){
+        return{}
+    }
+
+
     //----------------------------------------------->
     componentDidMount(){
-        axios.get("/order.json")
+
+
+        if(this.props.authenticated){
+        axios.get("/order.json?auth="+this.props.authToken +`&orderBy="userId"&equalTo="`+this.props.userId+`"`)
         .then(response=>{
-                this.setState({orders:response.data},()=>{
-                    
-                })
+                this.setState({orders:response.data})
         })
         .catch(error=>{
 
         })
+    }
+    
     }
 
 
@@ -188,7 +199,7 @@ class Orders extends React.Component{
            }
            <div style={{display:"flex",justifyContent:"center"}} className="pagination">
                     {
-                        this.state.orderBeginCountNumber==0?<div  class="page-item"><p style={{background:"darkgray", color:"white"}} disabled={true} class="page-link">previous</p></div>
+                        this.state.orderBeginCountNumber===0?<div  class="page-item"><p style={{background:"darkgray", color:"white"}} disabled={true} class="page-link">previous</p></div>
                         : <div className="page-item"><p onClick={this.onPreviousClickHandler} class="page-link">previous</p></div>
                     }
                 
@@ -210,4 +221,18 @@ class Orders extends React.Component{
     }
 }
 
-export default Orders;
+const mapStateToProps=(state)=>{
+    return{
+        authenticated:state.authReducer.authenticated,
+        username:state.authReducer.username,
+        authToken:state.authReducer.authToken,
+        userId:state.authReducer.userId
+    }
+}
+
+const mapDispatchToProps=(state)=>{
+    return{
+
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps) (Orders);

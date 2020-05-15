@@ -74,6 +74,9 @@ class Signin extends React.Component{
                      required={eleObj.validation.required}
                      />
                 )
+
+                 default:
+                    return null;
         }
 
     }
@@ -97,14 +100,15 @@ class Signin extends React.Component{
             email:this.state.formElements.email.value,
             password:this.state.formElements.password.value,
             returnSecureToken:true
+
             }
         axios.post(baseURL,userDetail)
         .then(res=>{
-            
             const authDetail = {
                 authToken:res.data.idToken,
     refreshToken:res.data.refreshToken,
-    username:res.data.email
+    username:res.data.email,
+    userId:res.data.localId
             }
 
             localStorage.setItem("authDetail", JSON.stringify(authDetail))

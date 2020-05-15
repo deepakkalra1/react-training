@@ -10,19 +10,16 @@ const actions = require("../../actions/actions")
 
 class NavigationToolbar extends React.Component{
 
-    static getDerivedStateFromProps(nextProps){
-        return{}
-    }
-
-    
     render()
-    {
+    { 
+
+        // mobileView={this.props.menuStatus} closeMenu={this.props.closeMenu}
         return(
             <div className={classes.NavOfToolbarContainer}>
-                   <p > <NavLink className={classes.Navlinks}   exact to="/">Build Burger</NavLink></p>
+                   <p > <NavLink onClick={this.props.mobileView!==undefined?()=>this.props.closeMenu():null} className={classes.Navlinks}   exact to="/">Build Burger</NavLink></p>
                   
                   {
-                      this.props.authenticated? <p>    <NavLink className={classes.Navlinks}   exact to="/my-orders">My Orders</NavLink></p>
+                      this.props.authenticated? <p>    <NavLink onClick={this.props.mobileView!==undefined?()=>this.props.closeMenu():null} className={classes.Navlinks}   exact to="/my-orders">My Orders</NavLink></p>
                   :null
                   }
                   {

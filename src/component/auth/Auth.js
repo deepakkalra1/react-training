@@ -1,9 +1,7 @@
 import React,{Component} from "react"
-import Button from "../Button/Button"
 import Signin from "./signin/Signin"
 import Signup from "./signup/Signup"
 import classes from "./Auth.module.css"
-import Backdrop from "../Backdrop/Backdrop"
 
 
 class Auth extends Component{
