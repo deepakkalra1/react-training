@@ -15,17 +15,7 @@ class UserDetail extends Component{
                                 }
                 
                 },
-                email:{
-                    id:"email",
-                    value:null,
-                    elementType:"input",
-                    type:"email",
-                    placeholder:"E-mail",
-                    validation:{
-                                required:true
-                                }
-                
-                },
+               
                 phoneNumber:{
                     id:"phoneNumber",
                     value:null,

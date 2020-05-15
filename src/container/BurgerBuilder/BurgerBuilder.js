@@ -13,17 +13,20 @@ import Backdrop from "../../component/Backdrop/Backdrop"
 import UserDetailForm from "../orderForm/OrderUserDetail"
 import withErrorHandler from "../../component/ErrorHandler/withErrorHandler"
 import {connect} from "react-redux"
+import Alert from "../../component/alert/Alert"
 const actions=  require( "../../actions/actions")
 
 class BurgerBuilder extends Component{
     
     total=0;
     state = {
-        
+        alert:false,
+        alertIcon:"error.png",
+        alertMsg:"error occured !!",
+        alertType:"danger",
         orderPlaced:false,
         checkedOut:false,
         orderInPlace:false,
-        
         orderNowClickedStatus:false,
         orderNowClickEligible:false,
         backdropVisible:false
@@ -246,12 +249,15 @@ class BurgerBuilder extends Component{
                 
             },
             paymentMethod:this.boughtFormDetailObj.paymentMethod.value,
-            phoneNumber:this.boughtFormDetailObj.phoneNumber.value,
-            email:this.boughtFormDetailObj.email.value
+            phoneNumber:this.boughtFormDetailObj.phoneNumber.value
+            
             
         }
 
-        axios.post("/order.json",order)
+
+        if(this.props.authenticated){
+
+            axios.post("/order.json?auth="+this.props.authToken,order)
         .then(res=>{
             
             
@@ -277,17 +283,31 @@ class BurgerBuilder extends Component{
 
         .catch((error)=>{
             this.setState({...this.initialState})
-            this.props.verifyErrorOccur(error)
+            let errormsg=error.response.data.error
+            this.props.verifyErrorOccur({message:errormsg})
         })
+        }
+        else{
+                this.setState({alert:true,alertIcon:"error.png",alertMsg:"You need to login to make an order !!",alertType:"danger"})
+
+                setTimeout(()=>{
+                    this.setState({...this.initialState})
+                },2500)
+        }
 
     }
+
+
+
 
 
     //------------------------------------------------>
     render(){
         return(
             <div className={classes.BurgerBuilderContainer +" text-monospace"}>
-               
+               {
+                   this.state.alert? <Alert msg={this.state.alertMsg} type={this.state.alertType} imgName={this.state.alertIcon} />:null
+               }
                 {
                     this.state.orderInPlace===1 ?<React.Fragment>  
                         <Backdrop />
@@ -342,7 +362,9 @@ const mapStateToProps = (state)=>{
     return{
         ingredients:state.burgerBuilder.ingredients,
    price:state.burgerBuilder.price,
-   totalPrice:state.burgerBuilder.totalPrice
+   totalPrice:state.burgerBuilder.totalPrice,
+   authenticated:state.authReducer.authenticated,
+   authToken:state.authReducer.authToken
 }
 }
 
