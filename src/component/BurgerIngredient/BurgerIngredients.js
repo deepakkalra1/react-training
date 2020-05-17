@@ -8,7 +8,7 @@ class BurgerIngredients extends Component{
     provideIngredient = (ingredientName)=>{
             switch(ingredientName){
                 case ("BreadTop"):
-                    return  (<React.Fragment> <div className={classes.BreadTop}>
+                    return  (<React.Fragment> <div key="breadTop" className={classes.BreadTop}>
                         
                         <div className={classes.Seeds1}></div>
                         <div className={classes.Seeds2}></div>
@@ -16,22 +16,22 @@ class BurgerIngredients extends Component{
                          break;
                 
                  case ("Meat"):
-                    return <div className={classes.Meat}></div>
+                    return <div key="meat" className={classes.Meat}></div>
                                  break;
 
                    case ("Salad"):
-                                      return  <div className={classes.Salad}></div>
+                                      return  <div key="salad" className={classes.Salad}></div>
                                             break;
                     case ("Cheese"):
-                    return    <div className={classes.Cheese}></div>
+                    return    <div key="cheese" className={classes.Cheese}></div>
                                                      break;
 
 
                      case ("Bacon"):
-                        return   <div className={classes.Bacon}></div>
+                        return   <div key="bacon" className={classes.Bacon}></div>
                                                              break;
                case ("BreadBottom"):
-                    return     <div className={classes.BreadBottom}></div>
+                    return     <div key="breadBottom" className={classes.BreadBottom}></div>
                          break;
             }
     }

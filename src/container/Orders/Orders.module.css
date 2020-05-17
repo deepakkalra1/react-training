@@ -9,7 +9,7 @@
 @media (max-width:500px){
     .OrdersContainer{
         display: flex;
-        flex-direction: column-reverse;
+        flex-direction: column;
 
     }
 }

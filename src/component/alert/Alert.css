@@ -5,8 +5,7 @@
     z-index: 150;
     animation-name: alertAnimation;
     animation-duration: 1s;
-    background: lightgreen;
-    color: darkgreen;
+    color: black;
 }
 .alerticon{
     height: 20px;

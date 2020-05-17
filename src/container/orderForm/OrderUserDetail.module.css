@@ -7,6 +7,7 @@
     display: flex;
     width: 30vw;
     margin-left: 30vw;
+    bottom: 10vh;
     margin-right: 30vw;
     flex-direction: column;
     animation-name: formAni;
@@ -32,8 +33,9 @@ margin-bottom: 10px;
 
 @media (max-width:500px){
     .UserDetailForm{
-        width: 100vw;
+        width: auto;
         margin: 0px;
-        left: 0px;
+        left: 10px;
+        right: 10px;
     }
 }

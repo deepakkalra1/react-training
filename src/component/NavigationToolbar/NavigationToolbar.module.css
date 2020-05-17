@@ -14,6 +14,15 @@
 
 }
 
+.Navlinks{
+    color:white
+}
+.LoginLink{
+    padding-left: 7px;
+    padding-right: 7px;
+    border-radius: 5px;
+    
+}
 .ActiveNav{
     color: saddlebrown;
    
@@ -37,5 +46,12 @@
         height: 40px;
         padding: 8px;
         border-bottom: 0.5px solid #ccc;
+    }
+    .LoginLink{
+        color: black;
+    }
+
+    .Navlinks{
+        color:#181818;
     }
 }

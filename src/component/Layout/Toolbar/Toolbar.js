@@ -2,6 +2,9 @@ import React , {Component} from "react";
 import classes from "./Toolbar.module.css";
 import Logo from "../../Logo/Logo"
 import NavigationToolbar from "../../NavigationToolbar/NavigationToolbar"
+import {connect} from "react-redux"
+
+const actions = require("../../../actions/actions")
 
 
 class Toolbar extends Component{
@@ -23,7 +26,9 @@ class Toolbar extends Component{
                 </div>
                 
                 <div className={classes.Navigation}>
-                    <NavigationToolbar />
+                    
+                    <NavigationToolbar  auth={this.props.auth} toggleAuthPage={this.props.toggleAuthPage} />
+                
                 </div>
             </div>
         )
@@ -31,4 +36,21 @@ class Toolbar extends Component{
 
 }
 
-export default Toolbar;
+
+
+const mapStateToProps = (state)=>{
+    
+    return{
+        authenticated:state.authReducer.authenticated,
+        username:state.authReducer.username
+}
+}
+
+const mapDispatchToProps = (dispatch)=>{
+    return{   
+}
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(Toolbar)
+

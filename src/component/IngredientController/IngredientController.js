@@ -7,7 +7,7 @@ class IngredientController extends Component{
         return(
             <div className={classes.IngredientControllerContainer }>
                 {
-                    Object.keys(this.props.ingredients).map((ingredientName)=>{
+                   Object.keys(this.props.ingredients).map((ingredientName)=>{
                         if(ingredientName !=="BreadTop" && ingredientName!=="BreadBottom"){
                         return (<div className={classes.ItemContainer} id={ingredientName} key={ingredientName.toLowerCase()}>
                             <span className={classes.ItemName}>{ingredientName}</span>

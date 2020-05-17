@@ -6,7 +6,7 @@ class Burger extends Component{
 
     render(){
         return(
-            <div className={classes.BurgerComponent}>
+            <div  className={classes.BurgerComponent}>
                 <BurgerIngredients  ingredients = {this.props.ingredients}>{this.props.children}</BurgerIngredients>
             </div>
         )

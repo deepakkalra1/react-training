@@ -2,7 +2,6 @@ import React , {Component} from "react";
 import classes from "./OrderSummary.module.css";
 import CheckoutButton from "../Button/Button"
 import Backdrop from "../Backdrop/Backdrop"
-import Spinner from "../spinner/Spinner"
 
 class OrderSummary extends Component{
 
