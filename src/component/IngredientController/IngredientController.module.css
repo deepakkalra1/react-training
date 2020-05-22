@@ -2,9 +2,9 @@
     padding: 10px;
     height: 30vh;
     display: flex;
-    width: 100%;
-    color: white;
-    background-color: #181818;
+    width: 60%;
+    color: black;
+    background-color: burlywood;
     box-shadow: 1px 1px 1px #ccc;
     border: 1px solid #ccc;
     margin: auto;
@@ -27,8 +27,10 @@
 
 @media(max-width:500px){
     .IngredientControllerContainer{
+        width: 100%;
         margin: 0px;
         font-size: 15px;
+        
     }
 
     .IngredientControllerContainer button{

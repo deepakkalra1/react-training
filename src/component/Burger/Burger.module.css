@@ -119,11 +119,12 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 45vh;
+  height: 40vh;
   overflow: auto;
-  width: 40%;
+  width: 100%;
   margin: auto;
 }
+
 
 @media (max-width:500px){
   .BurgerComponent{

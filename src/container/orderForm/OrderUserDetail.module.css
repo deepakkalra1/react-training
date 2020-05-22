@@ -1,0 +1,41 @@
+.UserDetailForm{
+    position: fixed;
+    z-index: 200;
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    display: flex;
+    width: 30vw;
+    margin-left: 30vw;
+    bottom: 10vh;
+    margin-right: 30vw;
+    flex-direction: column;
+    animation-name: formAni;
+    animation-duration: 1s;
+    
+}
+.UserDetailForm input{
+margin-bottom: 10px;
+}
+
+
+@keyframes formAni{
+    from{
+        bottom: -50vh;
+        opacity: 0;
+    }
+    to{
+        bottom: 10vh;
+        opacity: 1;
+    }
+}
+
+
+@media (max-width:500px){
+    .UserDetailForm{
+        width: auto;
+        margin: 0px;
+        left: 10px;
+        right: 10px;
+    }
+}

@@ -1,68 +1,72 @@
-import React , {Component} from "react";
+import React  from "react";
 import classes from "../Burger/Burger.module.css";
 
 
-class BurgerIngredients extends Component{
+const BurgerIngredients=(props)=>{
     
 
-    provideIngredient = (ingredientName)=>{
+    const provideIngredient = (ingredientName)=>{
             switch(ingredientName){
                 case ("BreadTop"):
-                    return  (<React.Fragment> <div className={classes.BreadTop}>
+                    return  (<React.Fragment key="upperBread"> <div key="breadTop" className={classes.BreadTop}>
                         
-                        <div className={classes.Seeds1}></div>
-                        <div className={classes.Seeds2}></div>
-                         </div> {this.props.children} </React.Fragment>)
-                         break;
+                        <div key="seed1" className={classes.Seeds1}></div>
+                        <div key="seed2" className={classes.Seeds2}></div>
+                         </div> {props.children} </React.Fragment>)
+                         
                 
                  case ("Meat"):
-                    return <div className={classes.Meat}></div>
-                                 break;
+                    return <div key="meat" className={classes.Meat}></div>
+                                 
 
                    case ("Salad"):
-                                      return  <div className={classes.Salad}></div>
-                                            break;
+                                      return  <div key="salad" className={classes.Salad}></div>
+                                            
                     case ("Cheese"):
-                    return    <div className={classes.Cheese}></div>
-                                                     break;
+                    return    <div key="cheese" className={classes.Cheese}></div>
+                                                     
 
 
                      case ("Bacon"):
-                        return   <div className={classes.Bacon}></div>
-                                                             break;
+                        return   <div key="bacon" className={classes.Bacon}></div>
+                                                            
                case ("BreadBottom"):
-                    return     <div className={classes.BreadBottom}></div>
-                         break;
-            }
+                    return     <div key="breadBottom" className={classes.BreadBottom}></div>
+                       
+                default :
+                return null;
+                        }
     }
 
-    render(){
-        
-        
-        let finalIngredientsMarkups = Object.keys(this.props.ingredients).map((key)=>{
-            
-            let ingredientsMarkup=[];
-             for(let i=0; i<this.props.ingredients[key];i++){
-            
-                 ingredientsMarkup.push(this.provideIngredient(key))
-             } 
+    
 
-             return ingredientsMarkup
-        })
-        console.log(finalIngredientsMarkups)
-        let arr = [<div>helloo</div>]
+        let finalIngredientsMarkups = [];
+        finalIngredientsMarkups.push(provideIngredient("BreadTop"))
+        
+        let keySet=Object.keys(props.ingredients)
+        
+        for(let i=0;i<keySet.length;i++){
+            let key=keySet[i];
+            let ingredientsMarkup=[];
+            
+            for(let j=0; j<props.ingredients[key];j++){
+                                if(key!=="BreadTop" && key!== "BreadBottom"){
+                                ingredientsMarkup.push(provideIngredient(key))
+                            }
+
+        }
+        finalIngredientsMarkups.push(ingredientsMarkup)
+    }
+    finalIngredientsMarkups.push(provideIngredient("BreadBottom"))
+
     
         return(
             <React.Fragment>
             {
-                //arr
                 finalIngredientsMarkups
-                
             }
            </React.Fragment> 
         )
     }
-
-}
 
 export default BurgerIngredients;

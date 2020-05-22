@@ -2,15 +2,10 @@ import React from "react";
 import LogoSrc from "../../assets/burgerIcon.png";
 import classes from "./Logo.module.css";
 
-class Logo extends React.Component{
-
-    render(){
+const Logo=()=> {
         return(
-            <img className={classes.Logo} src={LogoSrc} />
-        
+            <img alt="logo" className={classes.Logo} src={LogoSrc} />
         )
     }
-
-}
 
 export default Logo;

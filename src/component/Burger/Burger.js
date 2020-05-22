@@ -1,17 +1,12 @@
-import React , {Component} from "react";
+import React  from "react";
 import classes from "./Burger.module.css";
-import BurgerIngredient from "../BurgerIngredient/BurgerIngredients"
 import BurgerIngredients from "../BurgerIngredient/BurgerIngredients";
 
-class Burger extends Component{
-
-    render(){
+const Burger=(props)=>{
         return(
-            <div className={classes.BurgerComponent}>
-                <BurgerIngredients  ingredients = {this.props.ingredients}>{this.props.children}</BurgerIngredients>
+            <div  className={classes.BurgerComponent}>
+                <BurgerIngredients  ingredients = {props.ingredients}>{props.children}</BurgerIngredients>
             </div>
         )
     }
-}
-
 export default Burger;

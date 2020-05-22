@@ -1,16 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 
+const BlockData=(props)=>  {
 
-
-class BlockData extends Component {
-
-  render() {
     return (
       <div >
-        {this.props.children}
+        {props.children}
       </div>
-    );
+    )
   }
-}
+
 
 export default BlockData;

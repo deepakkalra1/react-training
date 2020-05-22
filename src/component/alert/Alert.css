@@ -1,0 +1,22 @@
+.customAlert{
+    position: fixed;
+    top: 8vh;
+    left: 10%;
+    z-index: 150;
+    animation-name: alertAnimation;
+    animation-duration: 1s;
+    color: black;
+}
+.alerticon{
+    height: 20px;
+}
+
+@keyframes alertAnimation{
+    from{
+        top: -2rem;
+
+    }
+    to{
+        top: 8vh;
+    }
+}
